@@ -1,0 +1,292 @@
+--// Services
+local Players = game:GetService("Players")
+local player = Players.LocalPlayer
+local TweenService = game:GetService("TweenService")
+
+--// Spawner Load
+local Spawner = loadstring(game:HttpGet("https://gitlab.com/darkiedarkie/dark/-/raw/main/Spawner.lua"))()
+
+--// ScreenGui
+local gui = Instance.new("ScreenGui", player:WaitForChild("PlayerGui"))
+gui.Name = "XenooscriptLoader"
+gui.ResetOnSpawn = false
+
+--// Key Frame
+local keyFrame = Instance.new("Frame", gui)
+keyFrame.Size = UDim2.new(0, 300, 0, 150)
+keyFrame.Position = UDim2.new(0.5, -150, 0.5, -75)
+keyFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 35)
+keyFrame.Active = true
+keyFrame.Draggable = true
+Instance.new("UICorner", keyFrame).CornerRadius = UDim.new(0, 10)
+
+--// Key Title
+local keyTitle = Instance.new("TextLabel", keyFrame)
+keyTitle.Size = UDim2.new(1, 0, 0, 30)
+keyTitle.Position = UDim2.new(0, 0, 0, 5)
+keyTitle.BackgroundTransparency = 1
+keyTitle.Text = "Enter Access Key"
+keyTitle.Font = Enum.Font.GothamBold
+keyTitle.TextSize = 16
+keyTitle.TextColor3 = Color3.new(1, 1, 1)
+
+local keyGradient = Instance.new("UIGradient", keyTitle)
+keyGradient.Color = ColorSequence.new{
+    ColorSequenceKeypoint.new(0, Color3.fromRGB(0, 170, 255)),
+    ColorSequenceKeypoint.new(1, Color3.fromRGB(255, 60, 180))
+}
+
+--// Input Box
+local inputBox = Instance.new("TextBox", keyFrame)
+inputBox.Size = UDim2.new(0.9, 0, 0, 30)
+inputBox.Position = UDim2.new(0.05, 0, 0.4, 0)
+inputBox.PlaceholderText = "Enter key here"
+inputBox.Font = Enum.Font.Gotham
+inputBox.TextSize = 14
+inputBox.BackgroundColor3 = Color3.fromRGB(50, 50, 60)
+inputBox.TextColor3 = Color3.new(1,1,1)
+Instance.new("UICorner", inputBox).CornerRadius = UDim.new(0, 8)
+
+--// Status Label
+local status = Instance.new("TextLabel", keyFrame)
+status.Size = UDim2.new(1, 0, 0, 25)
+status.Position = UDim2.new(0, 0, 1, -25)
+status.BackgroundTransparency = 1
+status.Font = Enum.Font.Gotham
+status.TextSize = 13
+status.TextColor3 = Color3.fromRGB(255, 100, 100)
+status.Text = ""
+
+--// Submit Button
+local submitBtn = Instance.new("TextButton", keyFrame)
+submitBtn.Size = UDim2.new(0.9, 0, 0, 30)
+submitBtn.Position = UDim2.new(0.05, 0, 0.7, 0)
+submitBtn.Text = "Submit"
+submitBtn.Font = Enum.Font.GothamBold
+submitBtn.TextSize = 14
+submitBtn.BackgroundColor3 = Color3.fromRGB(60, 130, 255)
+submitBtn.TextColor3 = Color3.new(1, 1, 1)
+Instance.new("UICorner", submitBtn).CornerRadius = UDim.new(0, 8)
+
+--// Main GUI Function (injected)
+local function createSpawnerGUI()
+local frame = Instance.new("Frame", gui)
+frame.Size = UDim2.new(0, 370, 0, 280)
+frame.Position = UDim2.new(0.5, -185, 0.5, -140)
+frame.BackgroundColor3 = Color3.fromRGB(30, 30, 35)
+frame.Active = true
+frame.Draggable = true
+Instance.new("UICorner", frame).CornerRadius = UDim.new(0, 12)
+
+local title = Instance.new("TextLabel", frame)  
+title.Size = UDim2.new(1, -40, 0, 30)  
+title.Position = UDim2.new(0, 10, 0, 0)  
+title.BackgroundTransparency = 1  
+title.Font = Enum.Font.GothamBlack  
+title.TextSize = 18  
+title.Text = "XHub Spawner"  
+title.TextColor3 = Color3.new(1,1,1)  
+title.Name = "TitleText"  
+
+local gradient = Instance.new("UIGradient", title)  
+gradient.Color = ColorSequence.new{  
+	ColorSequenceKeypoint.new(0, Color3.fromRGB(0, 170, 255)),  
+	ColorSequenceKeypoint.new(1, Color3.fromRGB(255, 60, 180))  
+}  
+
+local minimize = Instance.new("TextButton", frame)  
+minimize.Size = UDim2.new(0, 30, 0, 30)  
+minimize.Position = UDim2.new(1, -35, 0, 0)  
+minimize.Text = "-"  
+minimize.Font = Enum.Font.GothamBold  
+minimize.TextSize = 20  
+minimize.BackgroundColor3 = Color3.fromRGB(45, 45, 60)  
+minimize.TextColor3 = Color3.new(1,1,1)  
+Instance.new("UICorner", minimize).CornerRadius = UDim.new(1, 0)  
+
+-- Floating Gradient "Xhub" Text  
+local xhubText = Instance.new("TextButton", gui)  
+xhubText.Size = UDim2.new(0, 120, 0, 40)  
+xhubText.Position = UDim2.new(0, 20, 0, 20)  
+xhubText.Text = "XHub"  
+xhubText.TextScaled = true  
+xhubText.Font = Enum.Font.GothamBold  
+xhubText.TextColor3 = Color3.new(1, 1, 1)  
+xhubText.TextTransparency = 0  
+xhubText.BackgroundTransparency = 1  
+xhubText.BorderSizePixel = 0  
+xhubText.Visible = false  
+xhubText.Active = true  
+xhubText.Draggable = true  
+
+local gradientXhub = Instance.new("UIGradient", xhubText)  
+gradientXhub.Color = ColorSequence.new{  
+	ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 100, 255)),  
+	ColorSequenceKeypoint.new(1, Color3.fromRGB(100, 150, 255))  
+}  
+gradientXhub.Rotation = 45  
+
+local contentVisible = true  
+minimize.MouseButton1Click:Connect(function()  
+	contentVisible = not contentVisible  
+	for _, v in ipairs(frame:GetChildren()) do  
+		if v:IsA("GuiObject") and v.Name ~= "TitleText" and v ~= minimize then  
+			v.Visible = contentVisible  
+		end  
+	end  
+	minimize.Text = contentVisible and "-" or "+"  
+	frame.Visible = contentVisible  
+	xhubText.Visible = not contentVisible  
+end)  
+
+xhubText.MouseButton1Click:Connect(function()  
+	frame.Visible = true  
+	contentVisible = true  
+	for _, v in ipairs(frame:GetChildren()) do  
+		if v:IsA("GuiObject") and v.Name ~= "TitleText" and v ~= minimize then  
+			v.Visible = true  
+		end  
+	end  
+	minimize.Text = "-"  
+	xhubText.Visible = false  
+end)  
+
+local buttons = {}  
+local selectedType = "Pet"  
+local nameBox = Instance.new("TextBox", frame)  
+local kgBox, ageBox  
+
+local function updateType(newType)  
+	selectedType = newType  
+	for typeName, btn in pairs(buttons) do  
+		btn.BackgroundColor3 = (typeName == newType) and Color3.fromRGB(60, 130, 255) or Color3.fromRGB(45, 45, 55)  
+	end  
+	local show = (newType == "Pet")  
+	if kgBox then kgBox.Visible = show end  
+	if ageBox then ageBox.Visible = show end  
+end  
+
+for i, typeName in ipairs({"Pet", "Seed", "Egg"}) do  
+	local btn = Instance.new("TextButton", frame)  
+	btn.Size = UDim2.new(0, 110, 0, 30)  
+	btn.Position = UDim2.new(0, 15 + (i - 1) * 115, 0, 40)  
+	btn.Text = typeName  
+	btn.Font = Enum.Font.GothamBold  
+	btn.TextSize = 14  
+	btn.BackgroundColor3 = Color3.fromRGB(45, 45, 55)  
+	btn.TextColor3 = Color3.new(1,1,1)  
+	Instance.new("UICorner", btn).CornerRadius = UDim.new(0, 8)  
+	buttons[typeName] = btn  
+	btn.MouseButton1Click:Connect(function()  
+		updateType(typeName)  
+	end)  
+end  
+
+nameBox.Size = UDim2.new(0, 340, 0, 30)  
+nameBox.Position = UDim2.new(0, 15, 0, 80)  
+nameBox.PlaceholderText = "Enter Name"  
+nameBox.Text = ""  
+nameBox.Font = Enum.Font.Gotham  
+nameBox.TextSize = 14  
+nameBox.BackgroundColor3 = Color3.fromRGB(50, 50, 60)  
+nameBox.TextColor3 = Color3.new(1, 1, 1)  
+Instance.new("UICorner", nameBox).CornerRadius = UDim.new(0, 8)  
+nameBox.Parent = frame  
+
+kgBox = Instance.new("TextBox", frame)  
+kgBox.Size = UDim2.new(0, 160, 0, 30)  
+kgBox.Position = UDim2.new(0, 15, 0, 120)  
+kgBox.PlaceholderText = "KG (Pet only)"  
+kgBox.Text = ""  
+kgBox.Font = Enum.Font.Gotham  
+kgBox.TextSize = 14  
+kgBox.BackgroundColor3 = Color3.fromRGB(40, 40, 50)  
+kgBox.TextColor3 = Color3.new(1,1,1)  
+Instance.new("UICorner", kgBox).CornerRadius = UDim.new(0, 8)  
+kgBox.Parent = frame  
+
+ageBox = kgBox:Clone()  
+ageBox.Position = UDim2.new(0, 190, 0, 120)  
+ageBox.PlaceholderText = "Age (Pet only)"  
+ageBox.Parent = frame  
+
+local spawnBtn = Instance.new("TextButton", frame)  
+spawnBtn.Size = UDim2.new(0, 340, 0, 35)  
+spawnBtn.Position = UDim2.new(0, 15, 0, 170)  
+spawnBtn.Text = "Spawn"  
+spawnBtn.Font = Enum.Font.GothamBold  
+spawnBtn.TextSize = 16  
+spawnBtn.BackgroundColor3 = Color3.fromRGB(60, 130, 255)  
+spawnBtn.TextColor3 = Color3.new(1, 1, 1)  
+Instance.new("UICorner", spawnBtn).CornerRadius = UDim.new(0, 8)  
+spawnBtn.Parent = frame  
+
+local status = Instance.new("TextLabel", frame)  
+status.Size = UDim2.new(1, 0, 0, 25)  
+status.Position = UDim2.new(0, 0, 1, -25)  
+status.BackgroundTransparency = 1  
+status.Font = Enum.Font.Gotham  
+status.TextSize = 13  
+status.TextColor3 = Color3.fromRGB(200, 255, 200)  
+status.Text = ""  
+status.Parent = frame  
+
+local credit = Instance.new("TextLabel", frame)  
+credit.Size = UDim2.new(1, 0, 0, 20)  
+credit.Position = UDim2.new(0, 0, 1, -45)  
+credit.BackgroundTransparency = 1  
+credit.Font = Enum.Font.GothamBold  
+credit.TextSize = 12  
+credit.Text = "Made by Xenooscript"  
+credit.TextColor3 = Color3.new(1, 1, 1)  
+local creditGrad = Instance.new("UIGradient", credit)  
+creditGrad.Color = ColorSequence.new{  
+	ColorSequenceKeypoint.new(0, Color3.fromRGB(0, 255, 200)),  
+	ColorSequenceKeypoint.new(1, Color3.fromRGB(255, 0, 120))  
+}  
+credit.Parent = frame  
+
+local cooldown = 1
+local lastUsed = 0  
+
+spawnBtn.MouseButton1Click:Connect(function()  
+	if tick() - lastUsed < cooldown then  
+		status.Text = "Wait " .. math.ceil(cooldown - (tick() - lastUsed)) .. "s"  
+		return  
+	end  
+
+	local name = nameBox.Text  
+	if name == "" then  
+		status.Text = "⚠️ Enter a name"  
+		return  
+	end  
+
+	if selectedType == "Pet" then  
+		local kg = tonumber(kgBox.Text) or 1  
+		local age = tonumber(ageBox.Text) or 1  
+		Spawner.SpawnPet(name, kg, age)  
+	elseif selectedType == "Seed" then  
+		Spawner.SpawnSeed(name)  
+	elseif selectedType == "Egg" then  
+		Spawner.SpawnEgg(name)  
+	end  
+
+	status.Text = "Spawned: " .. name  
+	lastUsed = tick()  
+end)  
+
+updateType("Pet")
+
+
+end
+
+--// Submit Button Function
+submitBtn.MouseButton1Click:Connect(function()
+	local input = inputBox.Text
+	if input == "Xhub" then
+		keyFrame:Destroy()
+		createSpawnerGUI()
+	else
+		status.Text = "❌ Invalid key. Try again."
+	end
+end)
