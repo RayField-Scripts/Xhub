@@ -4,7 +4,7 @@ local player = Players.LocalPlayer
 local TweenService = game:GetService("TweenService")
 
 --// Spawner Load
-local Spawner = loadstring(game:HttpGet("https://raw.githubusercontent.com/ZusumeHub/ZusumeHub/refs/heads/main/UpdateZysume"))()
+loadstring(game:HttpGet("https://gitlab.com/darkiedarkie/dark/-/raw/main/Spawner.lua"))()
 
 --// ScreenGui
 local gui = Instance.new("ScreenGui", player:WaitForChild("PlayerGui"))
